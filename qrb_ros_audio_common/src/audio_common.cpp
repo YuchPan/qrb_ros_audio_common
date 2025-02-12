@@ -219,13 +219,13 @@ audio_stream_info AudioCommonNode::parse_stream_info(
   if (goal->audio_info.channels)
     stream_info.channels = goal->audio_info.channels;
 
+  if (goal->audio_info.sample_format)
+    stream_info.format = goal->audio_info.sample_format;
+
   if (goal->volume == 0)
     stream_info.volume = DEFAULT_VOLUME;
   else
     stream_info.volume = goal->volume;
-
-  if (!(goal->audio_info.sample_format))
-    stream_info.format = goal->audio_info.sample_format;
 
   if (goal->need_timestamp)
     stream_info.need_timestamp = goal->need_timestamp;
@@ -236,7 +236,7 @@ audio_stream_info AudioCommonNode::parse_stream_info(
   if (!(goal->file_path.empty()))
     stream_info.file_path = goal->file_path;
 
-  if (goal->pub_pcm) {
+  if (goal->pub_pcm || (!goal->topic_name.empty())) {
     stream_info.pcm_mode = true;
     need_topic_ = true;
     if (!goal->topic_name.empty())
